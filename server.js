@@ -1,19 +1,19 @@
 const express = require("express");
-const routes = require("./api/routes");
 const db = require('./api/db');
+const athRoutes = require('./api/routes/router');
 
 //connect db
 db.connect();
 
 const app = express();
-const port = 5000;
+const port = 3000;
 
 app.use(express.urlencoded({
     extended: true
 }));
 app.use(express.json()); 
 
-routes(app);
+app.use('/api/user', athRoutes);
 
 app.use(function(req, res) {
     res.status(404).send({url: req.originalUrl + ' not found'})
