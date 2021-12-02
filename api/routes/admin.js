@@ -1,20 +1,30 @@
 const express = require('express');
 const router = express.Router();
-const userService = require('../controllers/UserController');
-const verify = require('../auth/verifyToken');
+const adminController = require('../controllers/AdminController');
+const verify = require('../../auth/verifyToken');
 
 // routes
 router.post('/authenticate', authenticate);
+router.post('/register', register);
+router.put('/', verify, putUser);
+
 router.get('/', getAll);
 router.post('/', verify, postUser);
-router.put('/', verify, putUser);
 router.delete('/', verify, deleteUser);
 
 module.exports = router;
 
 async function authenticate(req, res) {
     try {
-        await userService.auth(req, res);
+        await adminController.authenticate(req, res);
+    } catch (error) {
+        res.status(400).send(error);
+    }
+}
+
+async function register(req, res) {
+    try {
+        await adminController.register(req, res);
     } catch (error) {
         res.status(400).send(error);
     }
@@ -22,7 +32,7 @@ async function authenticate(req, res) {
 
 async function getAll(req, res) {
     try {
-        await userService.get(req, res);
+        await adminController.getAll(req, res);
     } catch (error) {
         res.status(400).send(error);
     }
@@ -30,7 +40,7 @@ async function getAll(req, res) {
 
 async function postUser(req, res) {
     try {
-        await userService.post(req, res);
+        await adminController.postUser(req, res);
     } catch (error) {
         res.status(400).send(error);
     }
@@ -38,7 +48,7 @@ async function postUser(req, res) {
 
 async function putUser(req, res) {
     try {
-        await userService.put(req, res);
+        await adminController.putUser(req, res);
     } catch (error) {
         res.status(400).send(error);
     }
@@ -46,7 +56,7 @@ async function putUser(req, res) {
 
 async function deleteUser(req, res) {
     try {
-        await userService.delete(req, res);
+        await adminController.deleteUser(req, res);
     } catch (error) {
         res.status(400).send(error);
     }
