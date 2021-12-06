@@ -18,7 +18,7 @@ var request_return = new Schema({
     },
     accept_admin: {
         type: Boolean,
-        default: false
+        default: null
     }
 });
 

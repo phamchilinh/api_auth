@@ -30,7 +30,7 @@ var hand_over = new Schema({
     },
     accept_user: {
         type: Boolean,
-        default: false
+        default: null
     }
 });
 

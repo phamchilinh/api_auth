@@ -23,11 +23,11 @@ var request_transfer = new Schema({
     },
     accept_next_user: { 
         type: Boolean, 
-        default: false 
+        default: null 
     },
     accept_admin: {
         type: Boolean,
-        default: false
+        default: null
     }
 });
 

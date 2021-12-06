@@ -17,7 +17,7 @@ var request_provide = new Schema({
     },
     accept_admin: {
         type: Boolean,
-        default: false
+        default: null
     }
 });
 
