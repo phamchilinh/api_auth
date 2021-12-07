@@ -21,4 +21,4 @@ var request_provide = new Schema({
     }
 });
 
-module.exports = mongoose.model('Permisson', permisson);
+module.exports = mongoose.model('Request_provide', request_provide);

@@ -1,10 +1,7 @@
 const jwt = require('jsonwebtoken');
 const dotenv = require('dotenv');
-const bcrypt = require('bcrypt');
-const User = require('../models/User');
-const Permission = require('../models/Permission');
-const { loginUser } = require('../services/authService');
-const {getRoleByUserID, getUserByEmail, deleteUserByID, createUser, getAllUser, updateUser} = require('../services/userService');
+const { loginUser } = require('../services/auth.service');
+const {getRoleByUserID, getUserByEmail, deleteUserByID, createUser, getAllUser, updateUser} = require('../services/user.service');
 const { omitPassword } = require('../utils/user');
 
 dotenv.config();
@@ -46,6 +43,18 @@ async function getUsers(req, res, next) {
   }
 }
 
+async function getOneUser(req, res, next) {
+  try {
+    const user = await getUserByEmail(req.body.email);
+    if (!user) {
+      return res.status(404).send("User Not Exist.");
+    }
+    return res.send({user: user});
+  } catch (error) {
+    next(error);
+  }
+}
+
 async function putUser(req, res, next) {
   try {
     const users = await updateUser(req.user.id, req.body);
@@ -58,7 +67,7 @@ async function putUser(req, res, next) {
 
 async function deleteUser(req, res, next) {
   try {
-    const user = await deleteUserByID(req.query._id);
+    const user = await deleteUserByID(req.query.id);
     if (!user) {
       next();
     }
@@ -70,9 +79,10 @@ async function deleteUser(req, res, next) {
 }
 
 module.exports = {
-  authenticate: authenticate,
-  getUsers: getUsers,
-  postUser: postUser,
-  putUser: putUser,
-  deleteUser: deleteUser
+  authenticate,
+  getUsers,
+  postUser,
+  putUser,
+  deleteUser,
+  getOneUser,
 };
