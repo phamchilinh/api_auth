@@ -8,7 +8,8 @@ var device = new Schema({
     },
     access_code: {
         type: String,
-        required: true
+        required: true,
+        unique: true
     },
     device_type_id: {
         type: Schema.Types.ObjectId, 

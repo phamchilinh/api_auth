@@ -14,6 +14,7 @@ var hand_over = new Schema({
     },
     prev_user_id: {
         type: Schema.Types.ObjectId, 
+        default: null,
         ref: 'User'
     },
     returned: {

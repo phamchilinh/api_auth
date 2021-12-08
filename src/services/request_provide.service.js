@@ -39,13 +39,11 @@ const accessRequest = async (id, request_provide) => {
 
 const checkRequestAccessed = async (id) => {
     const query = { _id: id, accept_admin: null };
-    const request = await Request_provide.findOne({ _id: id, accept_admin: null });
-    console.log(request);
+    const request = await Request_provide.findOne(query);
     if (request) {
         return false;
     }
     return true;
-    
 };
 
 module.exports = {
