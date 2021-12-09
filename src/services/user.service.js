@@ -16,8 +16,7 @@ const getRoleByUserID = async (id) => {
 };
 
 const deleteUserByID = async (id) => {
-    const query = { _id: id };
-    const user = User.findOneAndRemove(query);
+    const user = User.findByIdAndRemove(id);
     return user;
 };
 
@@ -29,9 +28,7 @@ const createUser = async (user) => {
         last_name: user.last_name,
         email: user.email,
         phone: user.phone,
-        password: hashPassword,
-        create_date: user.create_date,
-        update_date: user.update_date
+        password: hashPassword
       });
   
     users.save();
@@ -42,15 +39,13 @@ const updateUser = async (id, user) => {
     const salt = await bcrypt.genSalt(saltRounds);
     const hashPassword = await bcrypt.hash(user.password, salt);
 
-    const query = { _id: id };
-    const users = User.findOneAndUpdate(query, {
+    const users = User.findByIdAndUpdate(id, {
         first_name: user.first_name,
         last_name: user.last_name,
         phone: user.phone,
         password: hashPassword,
-        create_date: user.create_date,
-        update_date: user.update_date
-    }, {upsert:true});
+        update_date: Date.now,
+    });
     return users;
 };
 

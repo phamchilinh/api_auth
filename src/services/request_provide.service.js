@@ -1,20 +1,18 @@
 const Request_provide = require('../models/Request_provide');
 
 const getRequestsByUserId = async (user_id) => {
-    return Request_provide.find({ user_id });
+    return Request_provide.findById(user_id);
 };
 
 const deleteRequestById = async (id) => {
-    const query = { _id: id };
-    const request_provide = Request_provide.findOneAndRemove(query);
+    const request_provide = Request_provide.findByIdAndRemove(id);
     return request_provide;
 };
 
 const createRequest = async (id, request_provide) => {
     const request = new Request_provide({
         user_id: id,
-        specifications: request_provide.specifications,
-        create_date: request_provide.create_date
+        specifications: request_provide.specifications
       });
   
     request.save();
@@ -22,18 +20,16 @@ const createRequest = async (id, request_provide) => {
 };
 
 const updateRequest = async (id, request_provide) => {
-    const query = { _id: id };
-    const request = Request_provide.findOneAndUpdate(query, {
+    const request = Request_provide.findByIdAndUpdate(id, {
         specifications: request_provide.specifications
-      }, {upsert:true});
+      });
     return request;
 };
 
 const accessRequest = async (id, request_provide) => {
-    const query = { _id: id };
-    const request = Request_provide.findOneAndUpdate(query, {
+    const request = Request_provide.findByIdAndUpdate(id, {
         accept_admin: request_provide.accept_admin
-      }, {upsert:true});
+      });
     return request;
 };
 

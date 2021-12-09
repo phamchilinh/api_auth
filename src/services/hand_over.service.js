@@ -1,7 +1,7 @@
 const Hand_over = require('../models/Hand_over');
 
 const getHand_overById = async (id) => {
-    return Hand_over.find({ _id: id });
+    return Hand_over.findById(id);
 };
 
 const createHand_over = async (request_Hand_over) => {
@@ -24,12 +24,11 @@ const checkHand_overAccessed = async (id) => {
 };
 
 const updateHand_over = async (id, request_Hand_over) => {
-    const query = { _id: id };
-    const hand_over = Hand_over.findOneAndUpdate(query, {
+    const hand_over = Hand_over.findByIdAndUpdate(id, {
         user_id: request_Hand_over.user_id,
         device_id: request_Hand_over.device_id,
         prev_user_id: request_Hand_over.prev_user_id,
-    }, {upsert:true});
+    });
     return hand_over;
 };
 
@@ -41,11 +40,21 @@ const accessHand_over = async (idUser, idHand_over, request_Hand_over) => {
     return hand_over;
 };
 
+const returnDevice = async (user_id, device_id) => {
+    const query = { user_id: user_id, device_id: device_id, accept_user: true, returned: false};
+    const hand_over = Hand_over.findOneAndUpdate(query, {
+        returned: true, 
+        date_returned: Date.now   
+      }, {upsert:true});
+    return hand_over;
+};
+
 module.exports = {
     getHand_overById,
     createHand_over,
     updateHand_over,
     checkHand_overAccessed,
-    accessHand_over
+    accessHand_over,
+    returnDevice
 
 }

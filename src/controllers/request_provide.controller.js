@@ -26,6 +26,10 @@ async function getRequest_provides(req, res, next) {
 
 async function putRequest_provide(req, res, next) {
   try {
+    const requestAccessed = await checkRequestAccessed(req.query.id);
+    if (requestAccessed) {
+      return res.send("Not Delete, admin accessed!");
+    }
     const request_provide = await updateRequest(req.query.id, req.body);
     if (!request_provide) {
       return res.send("request_provide not updated.");
