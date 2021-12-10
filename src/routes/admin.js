@@ -5,6 +5,7 @@ const request_provide = require('../controllers/request_provide.controller');
 const deviceService = require('../controllers/device.controller');
 const hand_overService = require('../controllers/hand_over.controller');
 const request_return = require('../controllers/request_return.controller');
+const request_transfer = require('../controllers/request_transfer.controller');
 const verify = require('../middlewares/verifyToken');
 const { errorHandler } = require('../middlewares/error');
 const auth = require('../middlewares/auth');
@@ -29,6 +30,7 @@ router.delete('/deleteUser', verify, auth('deleteUser'), userService.deleteUser,
 // accept request
 router.put('/accessRequest_provide', verify, validate(requestValidation.acceptAdmin), auth('accessRequest_provide'), request_provide.accessRequest_provide, errorHandler);
 router.put('/accessRequest_return', verify, validate(requestValidation.acceptAdmin), auth('accessRequest_return'), request_return.accessRequest_return, errorHandler);
+router.put('/adminAccess_transfer', verify, validate(requestValidation.acceptAdmin), auth('adminAccess_transfer'), request_transfer.adminAccess_transfer, errorHandler);
 
 // device
 router.put('/putDevice', verify, validate(deviceValidation.device_put), auth('putDevice'), deviceService.putDevice, errorHandler);
