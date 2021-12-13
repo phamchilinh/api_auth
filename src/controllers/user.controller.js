@@ -1,10 +1,8 @@
-const jwt = require('jsonwebtoken');
-const dotenv = require('dotenv');
 const { loginUser } = require('../services/auth.service');
+const { signAccessToken, signRefreshToken, saveRefreshToken, deleteRefreshToken } = require('../services/jwt.service');
 const {getRoleByUserID, getUserByEmail, deleteUserByID, createUser, getAllUser, updateUser} = require('../services/user.service');
 const { omitPassword } = require('../utils/user');
 
-dotenv.config();
 
 async function authenticate(req, res, next) {
   try {
@@ -12,8 +10,32 @@ async function authenticate(req, res, next) {
     if (!user) return res.status(400).send('Username or password is incorrect');
 
     const roles = await getRoleByUserID(user._id);
-    const token = jwt.sign({ id: user._id, role: roles.permisson_type }, process.env.SECRET, { expiresIn: '5h' });
-    return res.send({accessToken: token});
+    const accessToken = await signAccessToken(user._id, roles.permisson_type);
+    const refreshToken = await signRefreshToken(user._id, roles.permisson_type);
+    await saveRefreshToken(user._id, refreshToken);
+    return res.json({accessToken, refreshToken});
+  } catch (error) {
+    next(error);
+  }
+}
+
+async function refreshToken(req, res, next) {
+  try {
+    const user = req.user;
+    const accessToken = await signAccessToken(user.id, user.role);
+    const refreshToken = await signRefreshToken(user.id, user.role);
+    await saveRefreshToken(user.id, refreshToken);
+    return res.json({accessToken, refreshToken});
+  } catch (error) {
+    next(error);
+  }
+}
+
+async function logout(req, res, next) {
+  try {
+    const user = req.user;
+    await deleteRefreshToken(user.id);
+    return res.json({refreshToken: user.id});
   } catch (error) {
     next(error);
   }
@@ -80,6 +102,8 @@ async function deleteUser(req, res, next) {
 
 module.exports = {
   authenticate,
+  refreshToken,
+  logout,
   getUsers,
   postUser,
   putUser,
