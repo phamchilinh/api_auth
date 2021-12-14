@@ -1,25 +1,25 @@
 const Joi = require('joi');
 
-const request_provide = Joi.object().keys({
+const requestProvide = Joi.object().keys({
     specifications: Joi.string().required(),
 });
 
-const post_return = Joi.object().keys({
+const postReturn = Joi.object().keys({
     device_id: Joi.string().required(),
 });
 
-const put_return = Joi.object().keys({
+const putReturn = Joi.object().keys({
     device_id: Joi.string().required(),
 });
 
-const post_transfer = Joi.object().keys({
+const postTransfer = Joi.object().keys({
     device_id: Joi.string().required(),
     next_user_id: Joi.string().required(),
 });
 
-const put_transfer = Joi.object().keys({
-    device_id: Joi.string(),
-    next_user_id: Joi.string(),
+const putTransfer = Joi.object().keys({
+    device_id: Joi.string().required(),
+    next_user_id: Joi.string().required(),
 });
 
 const acceptNextUser = Joi.object().keys({
@@ -31,11 +31,11 @@ const acceptAdmin = Joi.object().keys({
 });
 
 module.exports = {
-    request_provide,
-    post_return,
-    put_return,
-    post_transfer,
-    put_transfer,
+    requestProvide,
+    postReturn,
+    putReturn,
+    postTransfer,
+    putTransfer,
     acceptNextUser,
     acceptAdmin,
 };

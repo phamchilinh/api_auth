@@ -1,45 +1,41 @@
 const express = require('express');
 const router = express.Router();
 const userService = require('../controllers/user.controller');
-const request_provide = require('../controllers/request_provide.controller');
+const requestProvide = require('../controllers/requestProvide.controller');
 const deviceService = require('../controllers/device.controller');
-const hand_overService = require('../controllers/hand_over.controller');
-const request_return = require('../controllers/request_return.controller');
-const request_transfer = require('../controllers/request_transfer.controller');
-const { verifyAccessToken, verifyRefreshToken} = require('../middlewares/verifyToken');
+const handOverService = require('../controllers/handOver.controller');
+const requestReturn = require('../controllers/requestReturn.controller');
+const requestTransfer = require('../controllers/requestTransfer.controller');
+const { verifyAccessToken } = require('../middlewares/verifyToken');
 const { errorHandler } = require('../middlewares/error');
 const auth = require('../middlewares/auth');
 const validate = require('../middlewares/validate');
 const authValidation = require('../validations/authValidation');
 const userValidation = require('../validations/userValidation');
 const deviceValidation = require('../validations/deviceValidation');
-const hand_overValidation = require('../validations/hand_overValidation');
+const handOverValidation = require('../validations/handOverValidation');
 const requestValidation = require('../validations/requestValidation');
 
-
-// authenticate
-router.post('/authenticate', validate(authValidation.login), userService.authenticate, errorHandler);
-
 // user
-router.put('/putUser', verifyAccessToken, validate(userValidation.user_put), auth('putUser'), userService.putUser, errorHandler);
+router.put('/putUser', verifyAccessToken, validate(userValidation.userPut), auth('putUser'), userService.editUser, errorHandler);
 router.get('/getUsers', verifyAccessToken, auth('getUsers'), userService.getUsers, errorHandler);
 router.get('/getOneUser', verifyAccessToken, auth('getOneUser'), userService.getOneUser, errorHandler);
-router.post('/postUser', verifyAccessToken, validate(userValidation.user_post), auth('postUser'), userService.postUser, errorHandler);
+router.post('/postUser', verifyAccessToken, validate(userValidation.userPost), auth('postUser'), userService.createUser, errorHandler);
 router.delete('/deleteUser', verifyAccessToken, auth('deleteUser'), userService.deleteUser, errorHandler);
 
 // accept request
-router.put('/accessRequest_provide', verifyAccessToken, validate(requestValidation.acceptAdmin), auth('accessRequest_provide'), request_provide.accessRequest_provide, errorHandler);
-router.put('/accessRequest_return', verifyAccessToken, validate(requestValidation.acceptAdmin), auth('accessRequest_return'), request_return.accessRequest_return, errorHandler);
-router.put('/adminAccess_transfer', verifyAccessToken, validate(requestValidation.acceptAdmin), auth('adminAccess_transfer'), request_transfer.adminAccess_transfer, errorHandler);
+router.put('/accessRequestProvide', verifyAccessToken, validate(requestValidation.acceptAdmin), auth('accessRequestProvide'), requestProvide.accessRequestProvide, errorHandler);
+router.put('/accessRequestReturn', verifyAccessToken, validate(requestValidation.acceptAdmin), auth('accessRequestReturn'), requestReturn.accessRequestReturn, errorHandler);
+router.put('/adminAccessTransfer', verifyAccessToken, validate(requestValidation.acceptAdmin), auth('adminAccessTransfer'), requestTransfer.adminAccessTransfer, errorHandler);
 
 // device
-router.put('/putDevice', verifyAccessToken, validate(deviceValidation.device_put), auth('putDevice'), deviceService.putDevice, errorHandler);
+router.put('/putDevice', verifyAccessToken, validate(deviceValidation.devicePut), auth('putDevice'), deviceService.putDevice, errorHandler);
 router.get('/getDevice', verifyAccessToken, auth('getDevice'), deviceService.getDevice, errorHandler);
-router.post('/postDevice', verifyAccessToken, validate(deviceValidation.device_post), auth('postDevice'), deviceService.postDevice, errorHandler);
+router.post('/postDevice', verifyAccessToken, validate(deviceValidation.devicePost), auth('postDevice'), deviceService.postDevice, errorHandler);
 
 // hand_over
-router.put('/putHand_over', verifyAccessToken, validate(hand_overValidation.hand_over_put), auth('putHand_over'), hand_overService.putHand_over, errorHandler);
-router.get('/getHand_over', verifyAccessToken, auth('getHand_over'), hand_overService.getHand_over, errorHandler);
-router.post('/postHand_over', verifyAccessToken, validate(hand_overValidation.hand_over_post), auth('postHand_over'), hand_overService.postHand_over, errorHandler);
+router.put('/putHandOver', verifyAccessToken, validate(handOverValidation.handOverPut), auth('putHandOver'), handOverService.putHandOver, errorHandler);
+router.get('/getHandOver', verifyAccessToken, auth('getHandOver'), handOverService.getHandOver, errorHandler);
+router.post('/postHandOver', verifyAccessToken, validate(handOverValidation.handOverPost), auth('postHandOver'), handOverService.postHandOver, errorHandler);
 
 module.exports = router;

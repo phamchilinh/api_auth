@@ -4,23 +4,23 @@ const bcrypt = require('bcrypt');
 const saltRounds = 8;
 
 const getUserByEmail = async (email) => {
-    return User.findOne({ email });
+    return await User.findOne({ email });
 };
 
 const getAllUser = async () => {
-    return User.find();
+    return await User.find();
 };
 
 const getRoleByUserID = async (id) => {
-    return Permission.findOne({ user_id: id });
+    return await Permission.findOne({ user_id: id });
 };
 
 const deleteUserByID = async (id) => {
-    const user = User.findByIdAndRemove(id);
+    const user = await User.findByIdAndRemove(id);
     return user;
 };
 
-const createUser = async (user) => {
+const saveUser = async (user) => {
     const salt = await bcrypt.genSalt(saltRounds);
     const hashPassword = await bcrypt.hash(user.password, salt);
     const users = new User({
@@ -31,7 +31,7 @@ const createUser = async (user) => {
         password: hashPassword
       });
   
-    users.save();
+    await users.save();
     return users;
 };
 
@@ -39,7 +39,7 @@ const updateUser = async (id, user) => {
     const salt = await bcrypt.genSalt(saltRounds);
     const hashPassword = await bcrypt.hash(user.password, salt);
 
-    const users = User.findByIdAndUpdate(id, {
+    const users = await User.findByIdAndUpdate(id, {
         first_name: user.first_name,
         last_name: user.last_name,
         phone: user.phone,
@@ -54,7 +54,7 @@ module.exports = {
     getUserByEmail,
     getRoleByUserID,
     deleteUserByID,
-    createUser,
+    saveUser,
     getAllUser,
     updateUser,
 }

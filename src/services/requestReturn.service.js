@@ -1,11 +1,11 @@
-const Request_return = require('../models/Request_return');
+const Request_return = require('../models/RequestReturn');
 
 const getRequestsByUserId = async (user_id) => {
-    return Request_return.findById(user_id);
+    return await Request_return.findById(user_id);
 };
 
 const deleteRequestById = async (id) => {
-    const request_return = Request_return.findByIdAndRemove(id);
+    const request_return = await Request_return.findByIdAndRemove(id);
     return request_return;
 };
 
@@ -15,19 +15,19 @@ const createRequest = async (id, request_return) => {
         device_id: request_return.device_id
       });
   
-    request.save();
+    await request.save();
     return request;
 };
 
 const updateRequest = async (id, request_return) => {
-    const request = Request_return.findByIdAndUpdate(id, {
+    const request = await Request_return.findByIdAndUpdate(id, {
         device_id: request_return.device_id
       });
     return request;
 };
 
 const accessRequest = async (id, request_return) => {
-    const request = Request_return.findByIdAndUpdate(id, {
+    const request = await Request_return.findByIdAndUpdate(id, {
         accept_admin: request_return.accept_admin
       });
     return request;

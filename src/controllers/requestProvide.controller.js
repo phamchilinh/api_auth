@@ -1,10 +1,10 @@
-const { getRequestsByUserId, checkRequestAccessed, accessRequest, deleteRequestById, updateRequest, createRequest} = require('../services/request_provide.service');
+const { getRequestsByUserId, checkRequestAccessed, accessRequest, deleteRequestById, updateRequest, createRequest} = require('../services/requestProvide.service');
 
-async function postRequest_provide(req, res, next) {
+async function postRequestProvide(req, res, next) {
   try {
     const request_provide = await createRequest(req.user.id, req.body);
     if (!request_provide) {
-      return res.send("request_provide not added.");
+      return res.send("request provide not added.");
     }
     return res.send({request_provide: request_provide._id});
   } catch (error) {
@@ -12,11 +12,11 @@ async function postRequest_provide(req, res, next) {
   }
 }
 
-async function getRequest_provides(req, res, next) {
+async function getRequestProvides(req, res, next) {
   try {
     const request_provide = await getRequestsByUserId(req.user.id);
     if (!request_provide) {
-      return res.send("request_provide not getted.");
+      return res.send("request provide not getted.");
     }
     return res.json(request_provide);
   } catch (error) {
@@ -24,7 +24,7 @@ async function getRequest_provides(req, res, next) {
   }
 }
 
-async function putRequest_provide(req, res, next) {
+async function putRequestProvide(req, res, next) {
   try {
     const requestAccessed = await checkRequestAccessed(req.query.id);
     if (requestAccessed) {
@@ -32,7 +32,7 @@ async function putRequest_provide(req, res, next) {
     }
     const request_provide = await updateRequest(req.query.id, req.body);
     if (!request_provide) {
-      return res.send("request_provide not updated.");
+      return res.send("request provide not updated.");
     }
     return res.send({request_provide: request_provide._id});
   } catch (error) {
@@ -41,11 +41,11 @@ async function putRequest_provide(req, res, next) {
   
 }
 
-async function accessRequest_provide(req, res, next) {
+async function accessRequestProvide(req, res, next) {
   try {
     const request_provide = await accessRequest(req.query.id, req.body);
     if (!request_provide) {
-      return res.send("request_provide not updated.");
+      return res.send("request provide not updated.");
     }
     return res.send({request_provide: request_provide._id});
   } catch (error) {
@@ -53,7 +53,7 @@ async function accessRequest_provide(req, res, next) {
   } 
 }
 
-async function deleteRequest_provide(req, res, next) {
+async function deleteRequestProvide(req, res, next) {
     try {
         const requestAccessed = await checkRequestAccessed(req.query.id);
         if (requestAccessed) {
@@ -70,9 +70,9 @@ async function deleteRequest_provide(req, res, next) {
 }
 
 module.exports = {
-    postRequest_provide,
-    getRequest_provides,
-    putRequest_provide,
-    accessRequest_provide,
-    deleteRequest_provide,
+    postRequestProvide,
+    getRequestProvides,
+    putRequestProvide,
+    accessRequestProvide,
+    deleteRequestProvide,
 };

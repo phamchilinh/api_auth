@@ -1,11 +1,11 @@
-const Request_provide = require('../models/Request_provide');
+const Request_provide = require('../models/RequestProvide');
 
 const getRequestsByUserId = async (user_id) => {
-    return Request_provide.findById(user_id);
+    return await Request_provide.findById(user_id);
 };
 
 const deleteRequestById = async (id) => {
-    const request_provide = Request_provide.findByIdAndRemove(id);
+    const request_provide = await Request_provide.findByIdAndRemove(id);
     return request_provide;
 };
 
@@ -15,19 +15,19 @@ const createRequest = async (id, request_provide) => {
         specifications: request_provide.specifications
       });
   
-    request.save();
+    await request.save();
     return request;
 };
 
 const updateRequest = async (id, request_provide) => {
-    const request = Request_provide.findByIdAndUpdate(id, {
+    const request = await Request_provide.findByIdAndUpdate(id, {
         specifications: request_provide.specifications
       });
     return request;
 };
 
 const accessRequest = async (id, request_provide) => {
-    const request = Request_provide.findByIdAndUpdate(id, {
+    const request = await Request_provide.findByIdAndUpdate(id, {
         accept_admin: request_provide.accept_admin
       });
     return request;

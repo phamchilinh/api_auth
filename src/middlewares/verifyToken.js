@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 const dotenv = require('dotenv');
-const { checkRefreshToken } = require('../services/jwt.service');
+const { checkRefreshToken } = require('../services/auth.service');
 dotenv.config();
 
 const verifyAccessToken = async  (req, res, next) => {

@@ -1,10 +1,9 @@
-const { loginUser } = require('../services/auth.service');
-const { signAccessToken, signRefreshToken, saveRefreshToken, deleteRefreshToken } = require('../services/jwt.service');
-const {getRoleByUserID, getUserByEmail, deleteUserByID, createUser, getAllUser, updateUser} = require('../services/user.service');
+const { loginUser, signAccessToken, signRefreshToken, saveRefreshToken, deleteRefreshToken } = require('../services/auth.service');
+const {getRoleByUserID, getUserByEmail, deleteUserByID, saveUser, getAllUser, updateUser} = require('../services/user.service');
 const { omitPassword } = require('../utils/user');
 
 
-async function authenticate(req, res, next) {
+async function login(req, res, next) {
   try {
     const user = await loginUser(req.body.email, req.body.password);
     if (!user) return res.status(400).send('Username or password is incorrect');
@@ -41,14 +40,14 @@ async function logout(req, res, next) {
   }
 }
 
-async function postUser(req, res, next) {
+async function createUser(req, res, next) {
   try {
     const oldUser = await getUserByEmail(req.body.email);
     if (oldUser) {
         return res.status(409).send("User Already Exist. Please Login");
     }
 
-    const users = await createUser(req.body);
+    const users = await saveUser(req.body);
     return res.send({users: users._id});
   } catch (error) {
     next(error);
@@ -71,13 +70,14 @@ async function getOneUser(req, res, next) {
     if (!user) {
       return res.status(404).send("User Not Exist.");
     }
-    return res.send({user: user});
+    const userOmitPass = await omitPassword(user);
+    return res.send({user: userOmitPass});
   } catch (error) {
     next(error);
   }
 }
 
-async function putUser(req, res, next) {
+async function editUser(req, res, next) {
   try {
     const users = await updateUser(req.user.id, req.body);
     return res.send({users: users._id});
@@ -101,12 +101,12 @@ async function deleteUser(req, res, next) {
 }
 
 module.exports = {
-  authenticate,
+  login,
   refreshToken,
   logout,
   getUsers,
-  postUser,
-  putUser,
+  createUser,
+  editUser,
   deleteUser,
   getOneUser,
 };

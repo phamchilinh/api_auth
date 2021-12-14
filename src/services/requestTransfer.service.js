@@ -1,11 +1,11 @@
-const Request_transfer = require('../models/Request_transfer');
+const Request_transfer = require('../models/RequestTransfer');
 
 const getRequestsByUserId = async (user_id) => {
-    return Request_transfer.findById(user_id);
+    return await Request_transfer.findById(user_id);
 };
 
 const deleteRequestById = async (id) => {
-    const request_transfer = Request_transfer.findByIdAndRemove(id);
+    const request_transfer = await Request_transfer.findByIdAndRemove(id);
     return request_transfer;
 };
 
@@ -16,12 +16,12 @@ const createRequest = async (id, request_transfer) => {
         next_user_id: request_transfer.next_user_id
       });
   
-    request.save();
+    await request.save();
     return request;
 };
 
 const updateRequest = async (id, request_transfer) => {
-    const request = Request_transfer.findByIdAndUpdate(id, {
+    const request = await Request_transfer.findByIdAndUpdate(id, {
         device_id: request_transfer.device_id,
         next_user_id: request_transfer.next_user_id
       });
@@ -29,14 +29,14 @@ const updateRequest = async (id, request_transfer) => {
 };
 
 const accessNextUser = async (id, request_transfer) => {
-    const request = Request_transfer.findByIdAndUpdate(id, {
+    const request = await Request_transfer.findByIdAndUpdate(id, {
         accept_next_user: request_transfer.accept_next_user
       });
     return request;
 };
 
 const accessAdmin = async (id, request_transfer) => {
-    const request = Request_transfer.findByIdAndUpdate(id, {
+    const request = await Request_transfer.findByIdAndUpdate(id, {
         accept_admin: request_transfer.accept_admin
       });
     return request;
