@@ -1,38 +1,42 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const modelNamesEnum = require('../_util/modelNames');
+
 
 var hand_over = new Schema({
     user_id: {
         type: Schema.Types.ObjectId,
         required: true,
-        ref: 'User'
+        ref: modelNamesEnum.User,
     },
     device_id: {
         type: Schema.Types.ObjectId,
         required: true,
-        ref: 'Device'
+        ref: modelNamesEnum.Device,
     },
     prev_user_id: {
         type: Schema.Types.ObjectId, 
         default: null,
-        ref: 'User'
+        ref: modelNamesEnum.User,
     },
     returned: {
         type: Boolean,
-        default: false
+        default: false,
     },
 	create_date: { 
         type: Date, 
-        default: Date.now 
+        default: Date.now, 
     },
     date_returned: { 
         type: Date, 
-        default: null 
+        default: null, 
     },
     accept_user: {
         type: Boolean,
-        default: null
+        default: null,
     }
 });
 
-module.exports = mongoose.model('Hand_over', hand_over);
+const modelName = modelNamesEnum.Hand_over;
+
+module.exports = mongoose.model(modelName, hand_over);

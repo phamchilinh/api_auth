@@ -1,20 +1,24 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const modelNamesEnum = require('../_util/modelNames');
+
 
 var permission = new Schema({
     user_id: {
         type: String,
         required: true,
-        ref: 'User' 
+        ref: modelNamesEnum.User, 
     },
     permisson_type: {
         type: String,
-        required: true
+        required: true,
     },
     description: {
         type: String, 
-        required: true
+        required: true,
     }
 });
 
-module.exports = mongoose.model('Permission', permission);
+const modelName = modelNamesEnum.Permission;
+
+module.exports = mongoose.model(modelName, permission);

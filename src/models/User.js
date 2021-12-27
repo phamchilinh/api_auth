@@ -1,36 +1,40 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const modelNamesEnum = require('../_util/modelNames');
+
 
 var user = new Schema({
     first_name: {
         type: String,
-        required: true
+        required: true,
     },
     last_name: {
         type: String,
-        required: true
+        required: true,
     },
     email: {
         type: String, 
         required: true, 
-        unique: true
+        unique: true,
     },
     phone: {
         type: String,
-        required: true
+        required: true,
     },
     password: { 
         type: String, 
-        required: true 
+        required: true, 
     },
 	create_date: { 
         type: Date, 
-        default: Date.now 
+        default: Date.now, 
     },
     update_date: { 
         type: Date, 
-        default: null 
+        default: null, 
     }
 });
 
-module.exports = mongoose.model('User', user);
+const modelName = modelNamesEnum.User;
+
+module.exports = mongoose.model(modelName , user);

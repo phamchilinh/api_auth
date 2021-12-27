@@ -1,17 +1,21 @@
 const { boolean } = require('joi');
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const modelNamesEnum = require('../_util/modelNames');
+
 
 var refresh_token = new Schema({
     user_id: {
         type: Schema.Types.ObjectId,
         required: true,
-        ref: 'User' 
+        ref: modelNamesEnum.User, 
     },
     token: {
         type: String,
-        required: true
+        required: true,
     }
 });
 
-module.exports = mongoose.model('Refresh_token', refresh_token);
+const modelName = modelNamesEnum.RefreshToken;
+
+module.exports = mongoose.model(modelName, refresh_token);

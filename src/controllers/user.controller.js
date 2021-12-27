@@ -1,6 +1,6 @@
 const { loginUser, signAccessToken, signRefreshToken, saveRefreshToken, deleteRefreshToken } = require('../services/auth.service');
 const {getRoleByUserID, getUserByEmail, deleteUserByID, saveUser, getAllUser, updateUser} = require('../services/user.service');
-const { omitPassword } = require('../utils/user');
+const { omitPassword } = require('../_util/user');
 
 
 async function login(req, res, next) {

@@ -1,4 +1,4 @@
-const { roleRights } = require('../configs/roles');
+const { roleRights } = require('../_config/roles');
 
 const auth = (...requiredRights) => async (req, res, next) => {
   try {

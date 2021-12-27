@@ -1,25 +1,29 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const modelNamesEnum = require('../_util/modelNames');
+
 
 var request_return = new Schema({
     user_id: {
         type: Schema.Types.ObjectId,
         required: true,
-        ref: 'User'
+        ref: modelNamesEnum.User,
     },
     device_id: {
         type: Schema.Types.ObjectId,
         required: true,
-        ref: 'Device'
+        ref: modelNamesEnum.Device,
     },
 	create_date: { 
         type: Date, 
-        default: Date.now 
+        default: Date.now, 
     },
     accept_admin: {
         type: Boolean,
-        default: null
+        default: null,
     }
 });
 
-module.exports = mongoose.model('Request_return', request_return);
+const modelName = modelNamesEnum.RequestReturn;
+
+module.exports = mongoose.model(modelName , request_return);

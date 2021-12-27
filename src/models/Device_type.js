@@ -1,15 +1,18 @@
 const mongoose = require('mongoose');
+const modelNamesEnum = require('../_util/modelNames');
 const Schema = mongoose.Schema;
 
 var device_type = new Schema({
     name_type: {
         type: String,
-        required: true
+        required: true,
     },
     description: {
         type: String, 
-        required: true
+        required: true,
     }
 });
 
-module.exports = mongoose.model('Device_type', device_type);
+const modelName = modelNamesEnum.Device_type;
+
+module.exports = mongoose.model(modelName, device_type);
