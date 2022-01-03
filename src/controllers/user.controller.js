@@ -1,4 +1,4 @@
-const { loginUser, signAccessToken, signRefreshToken, saveRefreshToken, deleteRefreshToken } = require('../services/auth.service');
+const { loginUser, registerUser, signAccessToken, signRefreshToken, saveRefreshToken, deleteRefreshToken } = require('../services/auth.service');
 const {getRoleByUserID, getUserByEmail, deleteUserByID, saveUser, getAllUser, updateUser} = require('../services/user.service');
 const { omitPassword } = require('../_util/user');
 
@@ -9,10 +9,19 @@ async function login(req, res, next) {
     if (!user) return res.status(400).send('Username or password is incorrect');
 
     const roles = await getRoleByUserID(user._id);
-    const accessToken = await signAccessToken(user._id, roles.permisson_type);
-    const refreshToken = await signRefreshToken(user._id, roles.permisson_type);
+    const accessToken = await signAccessToken(user._id, roles.permission_type);
+    const refreshToken = await signRefreshToken(user._id, roles.permission_type);
     await saveRefreshToken(user._id, refreshToken);
     return res.json({accessToken, refreshToken});
+  } catch (error) {
+    next(error);
+  }
+}
+
+async function register(req, res, next) {
+  try {
+    const user = await registerUser(req.body);
+    return res.json({"user": user._id});
   } catch (error) {
     next(error);
   }
@@ -102,6 +111,7 @@ async function deleteUser(req, res, next) {
 
 module.exports = {
   login,
+  register,
   refreshToken,
   logout,
   getUsers,

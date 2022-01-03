@@ -49,6 +49,16 @@ const updateUser = async (id, user) => {
     return users;
 };
 
+const savePermission = async (user_id, permission_type, description) => {
+    const permissions = new Permission({
+        user_id: user_id,
+        permission_type: permission_type,
+        description: description
+    });
+  
+    await permissions.save();
+    return permissions;
+};
 
 module.exports = {
     getUserByEmail,
@@ -57,4 +67,5 @@ module.exports = {
     saveUser,
     getAllUser,
     updateUser,
+    savePermission,
 }

@@ -1,0 +1,28 @@
+version: '3.4'
+
+services:
+    webapp-server:
+      build:
+        context: .
+        dockerfile: Dockerfile
+      image: rest_api
+      container_name: myapp-node-express
+      volumes:
+       - .:/usr/src/app
+       - /usr/src/app/node_modules
+      ports:
+        - "3000:3000"
+      depends_on:
+        - mongo
+      env_file: .env
+      environment:
+        - MONGO_HOSTNAME=$MONGO_HOSTNAME
+        - MONGO_PORT=$MONGO_PORT
+        - MONGO_DB=$MONGO_DB
+        - SECRET=$SECRET
+        - PORT=$PORT
+    mongo:
+      image: mongo
+      container_name: myapp-mongodb
+      ports:
+        - "27017:27017"

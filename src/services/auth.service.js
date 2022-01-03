@@ -11,7 +11,14 @@ const loginUser = async (email, password) => {
     if (!user || !(await bcrypt.compare(password, user.password))) {
         throw 'Incorrect email or password';
     }
+    return user;
+};
 
+const registerUser = async (userbody) => {
+    const user = await userService.saveUser(userbody);
+    if(user) {
+        const permission = await userService.savePermission(user._id, userbody.permission_type, userbody.description);
+    }
     return user;
 };
 
@@ -49,6 +56,7 @@ const checkRefreshToken = async (userid, token) => {
 
 module.exports = {
     loginUser,
+    registerUser,
     signAccessToken,
     signRefreshToken,
     saveRefreshToken,

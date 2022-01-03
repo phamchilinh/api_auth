@@ -14,6 +14,7 @@ const authValidation = require('../validations/authValidation');
 
 // authenticate
 router.post('/login', validate(authValidation.login), userService.login, errorHandler);
+router.post('/register', validate(authValidation.register), userService.register, errorHandler);
 router.post('/refreshtoken', verifyRefreshToken, userService.refreshToken, errorHandler);          
 router.post('/logout', verifyRefreshToken, userService.logout, errorHandler);  
 

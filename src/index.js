@@ -3,12 +3,15 @@ const userRoutes = require('./routes/user');
 const adminRoutes = require('./routes/admin');
 const authRoutes = require('./routes/auth');
 const db = require('./db');
+const dotenv = require('dotenv');
+
+dotenv.config();
 
 //connect db
 db.connect();
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT;
 
 app.use(express.urlencoded({
     extended: true

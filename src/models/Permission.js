@@ -9,7 +9,7 @@ var permission = new Schema({
         required: true,
         ref: modelNamesEnum.User, 
     },
-    permisson_type: {
+    permission_type: {
         type: String,
         required: true,
     },
